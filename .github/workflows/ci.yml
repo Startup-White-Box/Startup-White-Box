@@ -1,0 +1,43 @@
+name: CI — Self-Hosted Runner Test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test-runner:
+    runs-on: [self-hosted, linux, x64, startup-in-a-box]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Environment info
+        run: |
+          echo "OS: $(uname -a)"
+          echo "Node: $(node --version)"
+          echo "Python: $(python3.12 --version 2>/dev/null || python3 --version)"
+          echo "Git: $(git --version)"
+          echo "Docker: $(docker --version)"
+          echo "Runner: self-hosted — no time limits"
+          echo "Disk: $(df -h / | awk 'NR==2{print $4 " free"}')"
+
+      - name: Test Redis
+        run: docker exec sib-redis redis-cli ping
+
+      - name: Test MinIO
+        run: curl -sf http://localhost:9000/minio/health/live && echo "MinIO OK"
+
+      - name: Lint check
+        run: echo "TODO: Add linter when code exists"
+
+  test-timeout:
+    runs-on: [self-hosted, linux, x64, startup-in-a-box]
+    steps:
+      - name: Verify no time limit
+        run: |
+          echo "This runner has NO 6-hour time limit."
+          echo "GitHub Actions self-hosted runners do not enforce job timeouts by default."
+          echo "Max timeout is configurable per-workflow, defaults to 360 minutes."
+          echo "ML-Master experiments can run indefinitely."
