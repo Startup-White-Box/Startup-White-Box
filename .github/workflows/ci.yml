@@ -13,12 +13,12 @@ jobs:
 
       - name: Environment info
         run: |
-          echo 'OS:' Linux startup-in-a-box 6.8.12-13-pve #1 SMP PREEMPT_DYNAMIC PMX 6.8.12-13 (2025-07-22T10:00Z) x86_64 GNU/Linux
-          echo 'Node:' v22.22.3
-          echo 'Python:' Python 3.12.10
-          echo 'Git:' git version 2.39.5
-          echo 'Docker:' Docker version 20.10.24+dfsg1, build 297e128
-          echo 'Runner: self-hosted - no time limits'
+          echo "OS: $(uname -a)"
+          echo "Node: $(node --version)"
+          echo "Python: $(python3.12 --version 2>/dev/null || python3 --version)"
+          echo "Git: $(git --version)"
+          echo "Docker: $(docker --version)"
+          echo "Runner: self-hosted - no time limits"
 
       - name: Test Redis
         run: docker exec sib-redis redis-cli ping
@@ -27,4 +27,4 @@ jobs:
         run: curl -sf http://localhost:9000/minio/health/live
 
       - name: Done
-        run: echo 'CI passed on self-hosted runner'
+        run: echo "CI passed on self-hosted runner"
