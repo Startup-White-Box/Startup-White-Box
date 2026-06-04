@@ -9,7 +9,7 @@ on:
 
 jobs:
   test-runner:
-    runs-on: [self-hosted, linux, x64, startup-in-a-box]
+    runs-on: [self-hosted, Linux, X64, startup-in-a-box]
     steps:
       - uses: actions/checkout@v4
 
@@ -33,7 +33,7 @@ jobs:
         run: echo "TODO: Add linter when code exists"
 
   test-timeout:
-    runs-on: [self-hosted, linux, x64, startup-in-a-box]
+    runs-on: [self-hosted, Linux, X64, startup-in-a-box]
     steps:
       - name: Verify no time limit
         run: |
